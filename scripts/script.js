@@ -7,6 +7,13 @@ export const options = {
   vus: 10,
   // A string specifying the total duration of the test run.
   duration: '30s',
+  tags: {
+    pipeline_id: '12345',
+  },
+  thresholds: {
+    http_req_duration: ['p(95)<500'], // 95% of requests must complete below 500ms
+    'http_req_duration{perfTag:spike}': ['p(95)<1000'], // 95% of requests must complete below 1000ms
+  },
 
   // The following section contains configuration options for execution of this
   // test script in Grafana Cloud.

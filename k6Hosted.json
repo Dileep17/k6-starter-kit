@@ -26,14 +26,15 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 13719,
   "graphTooltip": 2,
-  "id": 44,
+  "id": 1,
+  "iteration": 1709603474906,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
+        "uid": "P76A45B24F43298D1"
       },
       "fieldConfig": {
         "defaults": {
@@ -76,7 +77,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "8.5.21",
       "targets": [
         {
           "datasource": {
@@ -93,10 +94,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "mappings": [],
@@ -138,13 +136,15 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "8.5.21",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
             "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
           },
+          "query": "SELECT mean(\"value\") FROM \"measurement\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
           "refId": "A"
         }
       ],
@@ -156,10 +156,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "influxdb",
-        "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
-      },
+      "datasource": {},
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -189,7 +186,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "8.5.21",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -252,10 +249,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "influxdb",
-        "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
-      },
+      "datasource": {},
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -287,7 +281,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "8.5.21",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -307,6 +301,8 @@
             "type": "influxdb",
             "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
           },
+          "query": "SELECT mean(\"value\") FROM \"measurement\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
           "refId": "A"
         }
       ],
@@ -347,10 +343,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "influxdb",
-        "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
-      },
+      "datasource": {},
       "fill": 3,
       "fillGradient": 0,
       "gridPos": {
@@ -381,7 +374,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "8.5.21",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -396,7 +389,7 @@
             "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
           },
           "hide": false,
-          "query": "SELECT sum(\"value\") FROM \"http_reqs\" WHERE (\"group\" =~ /^$Group$/ AND \"perfTag\" =~ /^$Tag$/) AND $timeFilter GROUP BY time(1s) fill(null)",
+          "query": "SELECT sum(\"value\") FROM \"http_reqs\" WHERE (\"group\" =~ /^$Group$/ AND \"perfTag\" =~ /^$Tag$/) ",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
@@ -442,7 +435,7 @@
       "dashes": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
+        "uid": "P76A45B24F43298D1"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -473,7 +466,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "8.5.21",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -487,7 +480,7 @@
             "type": "influxdb",
             "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
           },
-          "query": "SELECT sum(\"value\") FROM \"vus\" WHERE $timeFilter GROUP BY time(1s) fill(none)",
+          "query": "SELECT mean(\"value\") FROM \"measurement\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
@@ -529,18 +522,13 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
+        "uid": "P76A45B24F43298D1"
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
           "custom": {
             "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
+            "displayMode": "auto",
             "inspect": false
           },
           "mappings": [],
@@ -566,315 +554,8 @@
             },
             "properties": [
               {
-                "id": "displayName",
-                "value": "Time"
-              },
-              {
-                "id": "custom.align"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "percentile"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "P95"
-              },
-              {
-                "id": "unit",
-                "value": "ms"
-              },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "custom.align"
-              },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "#56A64B",
-                      "value": null
-                    },
-                    {
-                      "color": "rgba(237, 129, 40, 0.89)",
-                      "value": 200
-                    },
-                    {
-                      "color": "rgba(245, 54, 54, 0.9)",
-                      "value": 500
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "url"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "URL"
-              },
-              {
-                "id": "unit",
-                "value": "short"
-              },
-              {
-                "id": "decimals",
-                "value": 2
-              },
-              {
-                "id": "custom.align"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "min"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "ms"
-              },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "custom.align"
-              },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "rgba(50, 172, 45, 0)",
-                      "value": null
-                    },
-                    {
-                      "color": "rgba(237, 129, 40, 0.89)",
-                      "value": 200
-                    },
-                    {
-                      "color": "rgba(245, 54, 54, 0.9)",
-                      "value": 500
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "max"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "ms"
-              },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "custom.align"
-              },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "rgba(50, 172, 45, 0)",
-                      "value": null
-                    },
-                    {
-                      "color": "rgba(237, 129, 40, 0.89)",
-                      "value": 200
-                    },
-                    {
-                      "color": "rgba(245, 54, 54, 0.9)",
-                      "value": 500
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "mean"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "ms"
-              },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "custom.align"
-              },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "rgba(50, 172, 45, 0)",
-                      "value": null
-                    },
-                    {
-                      "color": "rgba(237, 129, 40, 0.89)",
-                      "value": 200
-                    },
-                    {
-                      "color": "rgba(245, 54, 54, 0.9)",
-                      "value": 500
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "median"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "ms"
-              },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "custom.align"
-              },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "rgba(50, 172, 45, 0)",
-                      "value": null
-                    },
-                    {
-                      "color": "rgba(237, 129, 40, 0.89)",
-                      "value": 200
-                    },
-                    {
-                      "color": "rgba(245, 54, 54, 0.9)",
-                      "value": 500
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "name"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "URL"
-              },
-              {
-                "id": "unit",
-                "value": "short"
-              },
-              {
-                "id": "decimals",
-                "value": 2
-              },
-              {
-                "id": "custom.align"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "percentile_1"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "P90"
-              },
-              {
-                "id": "unit",
-                "value": "short"
-              },
-              {
-                "id": "decimals",
-                "value": 2
-              },
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "custom.align"
-              },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "#56A64B",
-                      "value": null
-                    },
-                    {
-                      "color": "rgba(237, 129, 40, 0.89)",
-                      "value": 200
-                    },
-                    {
-                      "color": "#C4162A",
-                      "value": 500
-                    }
-                  ]
-                }
+                "id": "custom.width",
+                "value": 245
               }
             ]
           }
@@ -889,23 +570,24 @@
       "id": 73,
       "links": [],
       "options": {
-        "cellHeight": "sm",
         "footer": {
-          "countRows": false,
-          "fields": "",
+          "fields": [
+            "count"
+          ],
           "reducer": [
             "sum"
           ],
-          "show": false
+          "show": true
         },
-        "showHeader": true
+        "showHeader": true,
+        "sortBy": []
       },
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "8.5.21",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
+            "uid": "P76A45B24F43298D1"
           },
           "query": "SELECT count(\"value\"), min(\"value\"), median(\"value\"), max(\"value\"), mean(\"value\"), percentile(\"value\", 95), percentile(\"value\", 90) FROM /^$Measurement$/ WHERE (\"group\" =~ /^$Group$/ AND \"perfTag\" =~ /^$Tag$/) AND $timeFilter GROUP BY \"perfTag\"",
           "rawQuery": true,
@@ -925,61 +607,141 @@
       "type": "table"
     },
     {
-      "aliasColors": {
-        "max": "#f2c96d",
-        "min": "#f29191",
-        "p90": "#629e51",
-        "p95": "#70dbed"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "influxdb",
-        "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
-      },
+      "datasource": {},
       "description": "Grouped by 1 sec intervals and group name",
-      "fill": 6,
-      "fillGradient": 0,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 60,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "log": 2,
+              "type": "log"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "max"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#f2c96d",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "min"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#f29191",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p90"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#629e51",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p95"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#70dbed",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 6,
         "w": 24,
         "x": 0,
         "y": 29
       },
-      "height": "250px",
-      "hiddenSeries": false,
       "id": 74,
       "interval": ">1s",
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": false,
-        "hideEmpty": false,
-        "hideZero": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
       "links": [],
-      "nullPointMode": "null as zero",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "9.5.2",
-      "pointradius": 1,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "8.5.21",
       "targets": [
         {
           "datasource": {
@@ -987,42 +749,13 @@
             "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
           },
           "query": "SELECT median(\"value\") FROM /^$Measurement$/ WHERE (\"name\" =~ /^$URL$/ AND \"group\" =~ /^$Group$/ AND \"perfTag\" =~ /^$Tag$/) AND $timeFilter GROUP BY time($__interval), \"name\" fill(null)",
-          "rawQuery": true,
+          "rawQuery": false,
           "refId": "A",
           "resultFormat": "time_series"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "$Measurement (over time per tag)",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:2444",
-          "format": "ms",
-          "logBase": 2,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:2445",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "aliasColors": {
@@ -1070,7 +803,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.5.2",
+      "pluginVersion": "8.5.21",
       "pointradius": 1,
       "points": false,
       "renderer": "flot",
@@ -1372,21 +1105,6 @@
         "type": "influxdb",
         "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
       },
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "scaleDistribution": {
-              "type": "linear"
-            }
-          }
-        },
-        "overrides": []
-      },
       "gridPos": {
         "h": 7,
         "w": 12,
@@ -1480,7 +1198,7 @@
     }
   ],
   "refresh": "5s",
-  "schemaVersion": 38,
+  "schemaVersion": 36,
   "style": "dark",
   "tags": [
     "k6",
@@ -1568,7 +1286,7 @@
         },
         "datasource": {
           "type": "influxdb",
-          "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
+          "uid": "P76A45B24F43298D1"
         },
         "definition": "SHOW TAG VALUES WITH KEY = \"name\"",
         "hide": 0,
@@ -1599,7 +1317,7 @@
         },
         "datasource": {
           "type": "influxdb",
-          "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
+          "uid": "P76A45B24F43298D1"
         },
         "definition": "SHOW TAG VALUES WITH KEY = \"group\" WHERE $timeFilter",
         "hide": 0,
@@ -1620,17 +1338,13 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "CreateLead"
-          ],
-          "value": [
-            "CreateLead"
-          ]
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": {
           "type": "influxdb",
-          "uid": "fc63d711-5695-49ac-be18-57ce5bd79c5a"
+          "uid": "P76A45B24F43298D1"
         },
         "definition": "SHOW TAG VALUES WITH KEY = \"perfTag\" WHERE $timeFilter",
         "hide": 0,
@@ -1640,6 +1354,33 @@
         "name": "Tag",
         "options": [],
         "query": "SHOW TAG VALUES WITH KEY = \"perfTag\" WHERE $timeFilter",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "P76A45B24F43298D1"
+        },
+        "definition": "SHOW TAG VALUES WITH KEY = \"pipeline_id\" WHERE $timeFilter",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Build",
+        "multi": true,
+        "name": "Build",
+        "options": [],
+        "query": "SHOW TAG VALUES WITH KEY = \"pipeline_id\" WHERE $timeFilter",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -1678,6 +1419,6 @@
   "timezone": "browser",
   "title": "k6 Load Testing Results By Groups",
   "uid": "XKhgaUpik",
-  "version": 9,
+  "version": 4,
   "weekStart": ""
 }
