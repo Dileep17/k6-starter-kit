@@ -1,14 +1,38 @@
 version: '3.4'
 
+volumes:
+   pg-data:
+
 networks:
   k6:
   grafana:
 
 services:
+  database:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /pg-data
+    networks:
+      - k6      
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/pg-data
+
+  myapp:
+    build:
+      context: ./test-rest-app
+      dockerfile: Dockerfile
+    networks:
+      - k6      
+    ports:
+      - "4000:4000"
+
   influxdb:
     image: influxdb:1.8
-#    entrypoint: /bin/sh
-#    user: root
     networks:
       - k6
       - grafana
@@ -20,8 +44,6 @@ services:
 
   grafana:
     image: grafana/grafana:8.5.21
-#    entrypoint: /bin/sh
-#    user: root
     networks:
       - grafana
     ports:
