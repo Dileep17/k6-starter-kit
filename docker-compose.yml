@@ -54,12 +54,10 @@ services:
       - GF_AUTH_BASIC_ENABLED=false
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
     volumes:
-      - ./dashboards:/var/lib/grafana/dashboards
       - ./grafana:/etc/grafana/provisioning/
 
   k6:
-    platform: linux/amd64
-    image: loadimpact/k6:latest
+    build: .
     networks:
       - k6
     ports:
