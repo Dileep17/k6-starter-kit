@@ -43,7 +43,7 @@ services:
       - INFLUXDB_DB=k6
 
   grafana:
-    image: grafana/grafana:8.5.21
+    image: grafana/grafana:latest
     networks:
       - grafana
     ports:
@@ -55,8 +55,7 @@ services:
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
     volumes:
       - ./dashboards:/var/lib/grafana/dashboards
-      - ./grafana-dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
-      - ./grafana-datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./grafana:/etc/grafana/provisioning/
 
   k6:
     platform: linux/amd64
