@@ -1,6 +1,7 @@
 import http from 'k6/http';
 import { SharedArray } from 'k6/data';
 import { sleep, check, fail } from 'k6';
+import { Trend } from "k6/metrics";
 import exec from "k6/execution";
 
 const host = 'http://myapp:4000';
@@ -18,7 +19,7 @@ export const options = {
         favs: {
           executor: 'ramping-vus',
           exec: 'favs',
-          startVUs: 0,
+          startVUs: 1,
           stages: [
             { duration: '6s', target: 20 },
             { duration: '12s', target: 20 },
@@ -29,7 +30,7 @@ export const options = {
         randFails: {
             executor: 'ramping-vus',
             exec: 'randFails',
-            startVUs: 0,
+            startVUs: 1,
             stages: [
               { duration: '6s', target: 10 },
               { duration: '12s', target: 10 },
@@ -38,9 +39,6 @@ export const options = {
             gracefulRampDown: '1s',
         }
     },
-    // tags: {
-    //     pipeline_id: '1',
-    // },
     thresholds: {
         http_req_duration: ['p(95)<500'], // 95% of requests must complete below 500ms
         'http_req_duration{perfTag:create_user}': ['p(95)<1000'], // 95% of create_user requests must complete below 1000ms
@@ -48,6 +46,8 @@ export const options = {
         'http_req_duration{perfTag:create_fav}': ['p(95)<1000'], // 95% of create_fav requests must complete below 1000ms
     }
 };
+
+const error_log = new Trend("error_log");
 
 export function favs() {
     // console.log(`VU = ${__VU}; iteration = ${__ITER}; index = ${exec.scenario.iterationInTest}; data = ${JSON.stringify(users[exec.scenario.iterationInTest].name)}`);
@@ -71,53 +71,62 @@ export function randFails() {
 
 function create_user() {
     const tag = 'create_user';
-    const user_res = http.post(`${host}/user`, JSON.stringify({name: users[exec.scenario.iterationInTest].name}), {
-        headers: { 'Content-Type': 'application/json' },
-        tags: { perfTag: tag },
-    });
-    assertResponseStatus(tag, user_res, 200);
+    const index = exec.scenario.iterationInTest;
+    const endpoint = `${host}/user`;
+    const request = { name: users[index].name };
+    const user_res = http.post(endpoint, JSON.stringify(request), 
+        { headers: { 'Content-Type': 'application/json' }, tags: { perfTag: tag }}
+    );
+    assertResponse(tag, user_res);
     let user_id = JSON.parse(user_res.body).body.id;
-    return { user_id: user_id}
+    return { user_id: user_id }
 }
 
 function create_song(){
     const tag = 'create_song';
-    const song_res = http.post(`${host}/song`, 
-        JSON.stringify({
-            name: songs[exec.scenario.iterationInTest].name, 
-            duration: songs[exec.scenario.iterationInTest].duration
-        }), 
-        {
-            headers: { 'Content-Type': 'application/json' },
-            tags: { perfTag: tag },
-        }
+    const index = exec.scenario.iterationInTest;
+    const endpoint = `${host}/song`;
+    const request = { name: songs[index].name, duration: songs[index].duration }
+    const song_res = http.post(endpoint, JSON.stringify(request), 
+        { headers: { 'Content-Type': 'application/json' }, tags: { perfTag: tag } }
     );
-    assertResponseStatus(tag, song_res, 200);
+    assertResponse(tag, song_res);
     let song_id = JSON.parse(song_res.body).body.id;
     return { song_id: song_id };
 }
 
 function create_fav(user_id, song_id){
     const tag = 'create_fav';
-    const fav_res = http.post(`${host}/fav`, 
-        JSON.stringify({
-            song_id: song_id, 
-            user_id: user_id
-        }), 
-        {
-            headers: { 'Content-Type': 'application/json' },
-            tags: { perfTag: tag },
-        }
+    const endpoint = `${host}/fav`;
+    const request = { song_id: song_id, user_id: user_id }
+    const fav_res = http.post(endpoint, JSON.stringify(request), 
+        { headers: { 'Content-Type': 'application/json' }, tags: { perfTag: tag } }
     );
-    assertResponseStatus(tag, fav_res, 200);
+    assertResponse(tag, fav_res);
+}
+
+function assertResponse(tag, response) {
+    if(!check(
+        response, 
+        {
+            [`check status code for ${tag}`]: (r) => r.status === 200,
+            [`check ${tag} response has key "body.id"`]: (r) => {
+                let jsonResponse = JSON.parse(r.body);
+                return (jsonResponse.hasOwnProperty('body') && jsonResponse.body.hasOwnProperty('id'));
+            },
+        },
+        { perfTag: tag }
+    )){
+        fail(`${tag} checks failed`);
+    }
 }
 
 function assertResponseStatus(tag, response, expectedStatusCode = 200) {
-   if(!check(
-        response,
-        { [`status code check for ${tag}`]: (r) => r.status === expectedStatusCode 
-        },{ perfTag: tag }
-    )){
-        fail(`status code of ${tag} was *not* 200`);
-    }
-  }
+    if(!check(
+         response,
+         { [`status code check for ${tag}`]: (r) => r.status === expectedStatusCode 
+         },{ perfTag: tag }
+     )){
+         fail(`status code of ${tag} was *not* 200`);
+     }
+ }

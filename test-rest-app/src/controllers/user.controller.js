@@ -4,31 +4,49 @@ const getUsers = async (req,res)=>{
     try
     {
         const response = await pool.query('SELECT * FROM "user"');
+        console.log(JSON.stringify(response.rows));
         res.status(200).json(response.rows);
+        return
     }
-    catch(error){
-        console.log(error);
-        res.status(500).json({message: error.message});
+    catch(err){
+        const response = {
+            message: 'Failed to fetch users',
+            error: err.message
+        };
+        console.log(JSON.stringify(response));
+        res.status(500).json(response);
+        return
     }
 };
 
 const createUser = async (req,res)=>{
     try{
-        console.log(`this is req in fav = ${JSON.stringify(req.body)}`);
         const {name} = req.body;
         if(name === undefined){
-            res.status(400).json({message: 'Invalid params'});
+            const response = {
+                message: 'Failed to add user',
+                error: 'invalid request body'
+            };
+            console.log(JSON.stringify(response));
+            res.status(400).json(response);
+            return
         }
-        const response = await pool.query('INSERT INTO "user" (name) VALUES($1)',[name]);
-        // console.log(response);
-        const user = await pool.query('SELECT * FROM "user" WHERE "name" = $1',[name]);
-        res.status(200).json({
+        const user = await pool.query('INSERT INTO "user" (name) VALUES($1) RETURNING *',[name]);
+        const response = {
             message: 'User Added Successfully',
-            body:user.rows[0]
-        });
+            body: user.rows[0]
+        };
+        console.log(JSON.stringify(response));
+        res.status(200).json(response);
+        return
     } catch(err){
-        console.log(err);
-        res.status(500).json({message: err.message});
+        const response = {
+            message: 'Failed to add User',
+            error: err.message
+        };
+        console.log(JSON.stringify(response));
+        res.status(500).json(response);
+        return
     }
 
 };
