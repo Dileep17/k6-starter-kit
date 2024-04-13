@@ -1,11 +1,16 @@
 const { pool } = require('../db/pool');
+const { v4: uuidv4 } = require('uuid');
 
 const getSong = async (req,res)=>{
+    const uid =  await uuidv4();
     try
     {
         const response = await pool.query('SELECT * FROM "song"');
         console.log(JSON.stringify(response.rows));
-        res.status(200).json(response.rows);
+        res
+            .status(200)
+            .set('correlation-id', uid)
+            .json(response.rows);
         return
     }
     catch(err){
@@ -14,12 +19,16 @@ const getSong = async (req,res)=>{
             error: err.message
         };
         console.log(JSON.stringify(response));
-        res.status(500).json(response);
+        res
+            .status(500)
+            .set('correlation-id', uid)
+            .json(response);
         return
     }
 };
 
 const createSong = async (req,res)=>{
+    const uid =  await uuidv4();
     try {
         const {name, duration} = req.body;
         if(name === undefined || duration === undefined || Number.isNaN(Number(duration))){
@@ -28,7 +37,10 @@ const createSong = async (req,res)=>{
                 error: 'invalid request body'
             };
             console.log(JSON.stringify(response));
-            res.status(400).json(response);
+            res
+                .status(400)
+                .set('correlation-id', uid)
+                .json(response);
             return
         } 
 
@@ -39,7 +51,10 @@ const createSong = async (req,res)=>{
                 error: 'Duration is less than 100'
             };
             console.log(JSON.stringify(response));
-            res.status(400).json(response);
+            res
+                .status(400)
+                .set('correlation-id', uid)
+                .json(response);
             return
         }
         const song = await pool.query('INSERT INTO "song" (name, duration) VALUES($1, $2) RETURNING *',[name, duration]);
@@ -48,7 +63,10 @@ const createSong = async (req,res)=>{
             body: song.rows[0]
         };
         console.log(JSON.stringify(response));
-        res.status(200).json(response);
+        res
+            .status(200)
+            .set('correlation-id', uid)
+            .json(response);
         return
     } catch(err){
         const response = {
@@ -56,7 +74,10 @@ const createSong = async (req,res)=>{
             error: err.message
         };
         console.log(JSON.stringify(response));
-        res.status(500).json(response);
+        res
+            .status(500)
+            .set('correlation-id', uid)
+            .json(response);
         return
     }
 };

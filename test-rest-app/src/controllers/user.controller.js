@@ -1,11 +1,16 @@
 const { pool } = require('../db/pool');
+const { v4: uuidv4 } = require('uuid');
 
 const getUsers = async (req,res)=>{
+    const uid =  await uuidv4();
     try
     {
         const response = await pool.query('SELECT * FROM "user"');
         console.log(JSON.stringify(response.rows));
-        res.status(200).json(response.rows);
+        res
+            .status(200)
+            .set('correlation-id',uid)
+            .json(response.rows);
         return
     }
     catch(err){
@@ -14,12 +19,16 @@ const getUsers = async (req,res)=>{
             error: err.message
         };
         console.log(JSON.stringify(response));
-        res.status(500).json(response);
+        res
+            .status(500)
+            .set('correlation-id', uid)
+            .json(response);
         return
     }
 };
 
 const createUser = async (req,res)=>{
+    const uid =  await uuidv4();
     try{
         const {name} = req.body;
         if(name === undefined){
@@ -28,7 +37,10 @@ const createUser = async (req,res)=>{
                 error: 'invalid request body'
             };
             console.log(JSON.stringify(response));
-            res.status(400).json(response);
+            res
+                .status(400)
+                .set('correlation-id', uid)
+                .json(response);
             return
         }
         const user = await pool.query('INSERT INTO "user" (name) VALUES($1) RETURNING *',[name]);
@@ -37,7 +49,10 @@ const createUser = async (req,res)=>{
             body: user.rows[0]
         };
         console.log(JSON.stringify(response));
-        res.status(200).json(response);
+        res
+            .status(200)
+            .set('correlation-id', uid)
+            .json(response);
         return
     } catch(err){
         const response = {
@@ -45,7 +60,10 @@ const createUser = async (req,res)=>{
             error: err.message
         };
         console.log(JSON.stringify(response));
-        res.status(500).json(response);
+        res
+            .status(500)
+            .set('correlation-id',uid)
+            .json(response);
         return
     }
 

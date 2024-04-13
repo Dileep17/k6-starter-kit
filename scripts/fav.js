@@ -1,10 +1,12 @@
 import http from 'k6/http';
 import { SharedArray } from 'k6/data';
 import { sleep, check, fail } from 'k6';
-import { Trend } from "k6/metrics";
 import exec from "k6/execution";
+import { Trend } from 'k6/metrics';
 
 const host = 'http://myapp:4000';
+let failed_correlations = new Trend("failed_correlations_ids");
+
 
 const users = new SharedArray('users', function () {
     return JSON.parse(open('./user.json')).user;
@@ -21,9 +23,9 @@ export const options = {
           exec: 'favs',
           startVUs: 1,
           stages: [
-            { duration: '6s', target: 20 },
-            { duration: '12s', target: 20 },
-            { duration: '6s', target: 0 },
+            { duration: '60s', target: 20 },
+            { duration: '120s', target: 20 },
+            { duration: '60s', target: 0 },
           ],
           gracefulRampDown: '1s',
         },
@@ -32,9 +34,9 @@ export const options = {
             exec: 'randFails',
             startVUs: 1,
             stages: [
-              { duration: '6s', target: 10 },
-              { duration: '12s', target: 10 },
-              { duration: '6s', target: 0 },
+              { duration: '60s', target: 10 },
+              { duration: '120s', target: 10 },
+              { duration: '60s', target: 0 },
             ],
             gracefulRampDown: '1s',
         }
@@ -46,8 +48,6 @@ export const options = {
         'http_req_duration{perfTag:create_fav}': ['p(95)<1000'], // 95% of create_fav requests must complete below 1000ms
     }
 };
-
-const error_log = new Trend("error_log");
 
 export function favs() {
     // console.log(`VU = ${__VU}; iteration = ${__ITER}; index = ${exec.scenario.iterationInTest}; data = ${JSON.stringify(users[exec.scenario.iterationInTest].name)}`);
@@ -109,14 +109,14 @@ function assertResponse(tag, response) {
     if(!check(
         response, 
         {
-            [`check status code for ${tag}`]: (r) => r.status === 200,
-            [`check ${tag} response has key "body.id"`]: (r) => {
+            [`check response of ${tag} has "body.id"`]: (r) => {
                 let jsonResponse = JSON.parse(r.body);
                 return (jsonResponse.hasOwnProperty('body') && jsonResponse.body.hasOwnProperty('id'));
             },
         },
         { perfTag: tag }
     )){
+        failed_correlations.add(response.timings.duration, { correlationid: String(response.headers['Correlation-Id']), perfTag: tag});
         fail(`${tag} checks failed`);
     }
 }
@@ -129,4 +129,4 @@ function assertResponseStatus(tag, response, expectedStatusCode = 200) {
      )){
          fail(`status code of ${tag} was *not* 200`);
      }
- }
+}

@@ -26,6 +26,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 13719,
   "graphTooltip": 2,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -471,7 +472,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 116
+                "value": 241
               }
             ]
           },
@@ -483,7 +484,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 58
+                "value": 141
               }
             ]
           },
@@ -495,7 +496,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 63
+                "value": 163
               }
             ]
           },
@@ -507,7 +508,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 62
+                "value": 155
               }
             ]
           },
@@ -519,7 +520,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 69
+                "value": 152
               }
             ]
           },
@@ -531,7 +532,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 65
+                "value": 156
               }
             ]
           },
@@ -543,7 +544,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 67
+                "value": 159
               }
             ]
           },
@@ -555,7 +556,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 61
+                "value": 164
               }
             ]
           }
@@ -563,8 +564,8 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 9,
-        "x": 0,
+        "w": 21,
+        "x": 1,
         "y": 6
       },
       "id": 73,
@@ -611,6 +612,257 @@
                 "max",
                 "p(90)",
                 "p(95)"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P76A45B24F43298D1"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 193
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "perfTag"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 99
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 88
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "avg"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 95
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "min"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "median"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 106
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "max"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 102
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p(90)"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 99
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p(95)"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 105
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "failed_req"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 85
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "sum_value"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 95
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "count_value"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 103
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "check"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 518
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "correlationid"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 364
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 13
+      },
+      "id": 91,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": [
+            "count"
+          ],
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P76A45B24F43298D1"
+          },
+          "query": "SELECT * FROM \"failed_correlations_ids\" WHERE (\"pipeline_id\" =~ /^$Build$/) AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table"
+        }
+      ],
+      "title": "Failed request correlation-id",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "correlationid",
+                "perfTag"
               ]
             }
           }
@@ -776,7 +1028,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 110
+                "value": 97
               }
             ]
           }
@@ -784,9 +1036,9 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 5,
-        "x": 9,
-        "y": 6
+        "w": 6,
+        "x": 8,
+        "y": 13
       },
       "id": 90,
       "options": {
@@ -799,7 +1051,7 @@
           "reducer": [
             "sum"
           ],
-          "show": true
+          "show": false
         },
         "showHeader": true,
         "sortBy": []
@@ -1029,7 +1281,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 518
+                "value": 489
               }
             ]
           }
@@ -1039,7 +1291,7 @@
         "h": 7,
         "w": 10,
         "x": 14,
-        "y": 6
+        "y": 13
       },
       "id": 89,
       "options": {
@@ -1052,7 +1304,7 @@
           "reducer": [
             "sum"
           ],
-          "show": true
+          "show": false
         },
         "showHeader": true,
         "sortBy": []
@@ -1118,7 +1370,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1151,7 +1403,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 20
       },
       "id": 1,
       "interval": ">1s",
@@ -1215,7 +1467,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1248,7 +1500,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 20
+        "y": 27
       },
       "id": 17,
       "interval": "1s",
@@ -1313,7 +1565,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1346,7 +1598,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 27
+        "y": 34
       },
       "id": 80,
       "interval": "1s",
@@ -1411,7 +1663,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1444,7 +1696,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 34
+        "y": 41
       },
       "id": 82,
       "interval": "1s",
@@ -1509,7 +1761,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1542,7 +1794,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 50
       },
       "id": 83,
       "interval": "1s",
@@ -1607,7 +1859,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "always",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1655,7 +1907,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 58
       },
       "id": 10,
       "interval": ">1s",
@@ -1719,7 +1971,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1767,7 +2019,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 58
+        "y": 65
       },
       "id": 7,
       "interval": "1s",
@@ -1831,7 +2083,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1864,7 +2116,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 66
+        "y": 73
       },
       "id": 84,
       "interval": "1s",
@@ -1929,7 +2181,7 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1962,7 +2214,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 75
+        "y": 82
       },
       "id": 85,
       "interval": "1s",
@@ -2038,8 +2290,8 @@
     ]
   },
   "time": {
-    "from": "2024-04-12T11:02:53.237Z",
-    "to": "2024-04-12T11:03:18.868Z"
+    "from": "2024-04-13T09:21:37.569Z",
+    "to": "2024-04-13T09:25:57.533Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -2062,8 +2314,8 @@
     ]
   },
   "timezone": "browser",
-  "title": "k6 Load Testing Results By Tags",
-  "uid": "XKhgaUpim",
-  "version": 1,
+  "title": "k6 Load Testing Results By Tags - new",
+  "uid": "XKhgaUpiv",
+  "version": 15,
   "weekStart": ""
 }
